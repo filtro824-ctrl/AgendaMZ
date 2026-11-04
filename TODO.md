@@ -1,0 +1,6 @@
+# Entregas
+
+- [x] **Tela inicial Agenda MZ fiel à referência:** criada somente a aparência visual inicial, não um site completo; inclui identidade Agenda MZ, hero “Descobre, Participa e Vive os Melhores Eventos!”, descrição e botão “Explorar Eventos”, composição vibrante com paleta azul-marinho, branco e amarelo/dourado e atmosfera de festival ao pôr do sol.
+- [x] **Navegação e busca visuais:** ícone de menu no alto à direita, busca integrada à composição e painel lateral inicialmente aberto à direita com Início, Eventos, Mapa, Notificações, Chat IA, Publicar Evento, Meu Perfil, Definições e Ajuda & Suporte; painel abre e fecha visualmente, sem fluxos completos.
+- [x] **Eventos em destaque:** quatro cartões claros e arredondados sob o título “Eventos em Destaque”, com imagens próprias, categorias, data, local e título conforme a composição da referência.
+- [x] **Faixa de benefícios e responsividade:** apresenta Agenda Atualizada em Tempo Real, Alarmes e Lembretes Personalizados, Mapa Integrado com Google Maps e Assistente IA; preserva a hierarquia visual em diferentes larguras e inclui estados de hover simples.
