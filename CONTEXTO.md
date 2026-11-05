@@ -66,3 +66,19 @@ Tudo no site deve adaptar-se a telemóvel normal, telemóvel em modo computador,
 - Pesquisa e menu passaram a ter eventos independentes; tocar na pesquisa fecha o menu e não o abre por propagação.
 - O fecho fora do menu deixou de estar limitado ao modo móvel; o menu fecha também por toque/clique fora, Esc, X e selecção de opção. O fundo fica bloqueado enquanto está aberto.
 - A causa encontrada era o `.menu-toggle` passar de `fixed` para `absolute` dentro de um `.site-header` estreito abaixo de 1200 px, enquanto o fecho exterior e o bloqueio de scroll estavam condicionados apenas a `isMobileMenu()`.
+
+## Regra permanente — CSS obrigatório em todas as alterações
+
+- O CSS é parte essencial de cada entrega e deve ser tratado em conjunto com HTML, JavaScript e recursos visuais quando a funcionalidade depender deles.
+- Antes de concluir qualquer etapa, verificar a existência, integridade, referências, caminhos e carregamento dos ficheiros CSS, incluindo o artefacto final em `dist/`.
+- Preservar os estilos existentes e garantir que novos elementos têm estilos completos para desktop e telemóvel, incluindo cores, espaçamentos, botões, cartões, menus, imagens, animações e responsividade.
+- Executar o build completo e confirmar que CSS, imagens, fontes e outros recursos necessários são copiados para `dist/`.
+- Confirmar o tipo de conteúdo dos ficheiros CSS e realizar testes visuais em computadores e telemóveis antes de considerar a etapa concluída.
+- Cada commit deve incluir todos os ficheiros necessários para a alteração funcionar; código sem os estilos correspondentes não é uma entrega válida.
+- A versão publicada deve corresponder exactamente ao conjunto de código e estilos validado no build; nunca publicar CSS antigo, ausente ou incompatível.
+
+## Correcção CSS — 2026-11-05
+
+- O `styles.css` tinha sido sobrescrito acidentalmente por um override de 499 bytes, deixando a home sem o design principal.
+- O CSS completo foi restaurado e o override da pesquisa pública foi reaplicado no final do ficheiro.
+- `npm run build`, headers `text/css` e testes visuais desktop/mobile foram realizados antes do commit.
