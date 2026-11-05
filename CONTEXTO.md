@@ -35,3 +35,11 @@ Regras permanentes para o repositório `filtro824-ctrl/AgendaMZ`.
 - `npm run build`, a aplicação fonte e o artefacto `dist/` passaram os testes em 320, 390, 768, 1024 e 1280 px.
 - Pesquisa e categoria combinadas, estado sem resultados, botão Ver todos e menu lateral foram testados.
 - O pull request desta tarefa será aberto para `main` e aguarda aprovação; não fazer merge sem autorização explícita.
+
+## Correcção 4
+
+- Removida apenas a faixa dos quatro benefícios por baixo dos eventos da página inicial.
+- Removidos os estilos CSS exclusivos dessa faixa; não havia JavaScript específico associado.
+- O rodapé `Agenda MZ` / `Juntos por uma Moçambique mais informada.` foi preservado.
+- `npm run build`, a aplicação fonte e o artefacto `dist/` passaram os testes em 320, 390, 768, 1024 e 1280 px.
+- O pull request existente para `main` será actualizado e aguarda aprovação; não fazer merge sem autorização explícita.
