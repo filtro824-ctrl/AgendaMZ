@@ -23,6 +23,8 @@ const server = createServer((request, response) => {
   const publicFile = join(publicRoot, relativePath);
   let filePath = pathname === '/manus-routes.json'
     ? join(publicRoot, 'manus-routes.json')
+    : pathname === '/eventos' || pathname === '/eventos/'
+      ? join(root, 'eventos.html')
     : existsSync(appFile) && statSync(appFile).isFile()
       ? appFile
       : publicFile;

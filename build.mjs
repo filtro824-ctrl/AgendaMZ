@@ -9,14 +9,16 @@ const publicDir = join(root, 'public');
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 
-for (const file of ['index.html', 'main.js', 'styles.css']) {
+for (const file of ['index.html', 'eventos.html', 'events.js', 'main.js', 'styles.css']) {
   cpSync(join(root, file), join(dist, file));
 }
+
+mkdirSync(join(dist, 'eventos'), { recursive: true });
+cpSync(join(root, 'eventos.html'), join(dist, 'eventos', 'index.html'));
 
 if (existsSync(publicDir)) {
   cpSync(publicDir, dist, {
     recursive: true,
-    filter: (src) => !src.endsWith('manus-routes.json'),
   });
 }
 

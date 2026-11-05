@@ -8,6 +8,7 @@
     <title>Agenda MZ — Descobre os melhores eventos</title>
     <link rel="icon" href="/brandmark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <script src="/events.js" defer></script>
     <script src="/main.js" defer></script>
   </head>
   <body>
@@ -57,59 +58,12 @@
               <p class="section-kicker">Não percas o que vem aí</p>
               <h2 id="featured-title">Eventos em Destaque</h2>
             </div>
-            <a class="view-all" href="#eventos">Ver todos <span aria-hidden="true">→</span></a>
+            <a class="view-all" href="/eventos">Ver todos <span aria-hidden="true">→</span></a>
           </div>
-          <div class="event-grid" id="event-grid">
-            <article class="event-card" data-search="festival de música maputo música concerto dezembro">
-              <button class="event-image music-image" type="button" aria-label="Ver Festival de Música de Maputo">
-                <img src="/images/event-music.jpg" alt="Multidão num concerto com luzes coloridas" loading="lazy" />
-                <span class="category category-pink">Música</span>
-              </button>
-              <div class="event-info">
-                <div class="event-meta"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"></rect><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"></path></svg>20 Dez · 18h00</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.2"></circle></svg>Maputo</span></div>
-                <div class="event-bottom"><h3>Festival de Música<br />de Maputo</h3><button class="card-arrow" type="button" aria-label="Ver detalhes do Festival de Música de Maputo">→</button></div>
-              </div>
-            </article>
-            <article class="event-card" data-search="conferência de inovação maputo tecnologia conferência dezembro">
-              <button class="event-image conference-image" type="button" aria-label="Ver Conferência de Inovação">
-                <img src="/images/event-conference.jpg" alt="Participantes numa conferência de inovação" loading="lazy" />
-                <span class="category category-blue">Conferência</span>
-              </button>
-              <div class="event-info">
-                <div class="event-meta"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"></rect><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"></path></svg>15 Dez · 09h00</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.2"></circle></svg>Maputo</span></div>
-                <div class="event-bottom"><h3>Conferência de<br />Inovação</h3><button class="card-arrow" type="button" aria-label="Ver detalhes da Conferência de Inovação">→</button></div>
-              </div>
-            </article>
-            <article class="event-card" data-search="festival cultural de nampula cultura dança tradição dezembro">
-              <button class="event-image culture-image" type="button" aria-label="Ver Festival Cultural de Nampula">
-                <img src="/images/event-culture.jpg" alt="Dança num festival cultural ao ar livre" loading="lazy" />
-                <span class="category category-green">Cultura</span>
-              </button>
-              <div class="event-info">
-                <div class="event-meta"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"></rect><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"></path></svg>12 Dez · 16h00</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.2"></circle></svg>Nampula</span></div>
-                <div class="event-bottom"><h3>Festival Cultural<br />de Nampula</h3><button class="card-arrow" type="button" aria-label="Ver detalhes do Festival Cultural de Nampula">→</button></div>
-              </div>
-            </article>
-            <article class="event-card" data-search="campeonato provincial beira esporte futebol dezembro">
-              <button class="event-image sport-image" type="button" aria-label="Ver Campeonato Provincial">
-                <img src="/images/event-football.jpg" alt="Jogadores disputam uma partida de futebol" loading="lazy" />
-                <span class="category category-orange">Desporto</span>
-              </button>
-              <div class="event-info">
-                <div class="event-meta"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"></rect><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"></path></svg>10 Dez · 15h00</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.2"></circle></svg>Beira</span></div>
-                <div class="event-bottom"><h3>Campeonato<br />Provincial</h3><button class="card-arrow" type="button" aria-label="Ver detalhes do Campeonato Provincial">→</button></div>
-              </div>
-            </article>
-          </div>
+          <div class="event-grid" id="event-grid"></div>
           <p id="search-empty" class="search-empty" hidden>Nenhum evento encontrado. Tenta outra pesquisa.</p>
         </section>
 
-        <section class="benefits-bar" aria-label="O que o Agenda MZ oferece">
-          <div class="benefit"><span class="benefit-icon calendar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M8 14h3M8 17h7"></path></svg></span><p><strong>Agenda Atualizada</strong><span>em Tempo Real</span></p></div>
-          <div class="benefit"><span class="benefit-icon bell-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg></span><p><strong>Alarmes e Lembretes</strong><span>Personalizados</span></p></div>
-          <div class="benefit"><span class="benefit-icon map-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2"></circle></svg></span><p><strong>Mapa Integrado</strong><span>com Google Maps</span></p></div>
-          <div class="benefit"><span class="benefit-icon ai-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="3"></rect><path d="M12 3v4M8 12h.01M16 12h.01M9 16h6M2 12h2M20 12h2"></path><circle cx="12" cy="3" r="1"></circle></svg></span><p><strong>Assistente IA</strong><span>Sempre ao seu lado</span></p></div>
-        </section>
         <footer class="site-footer"><span>Agenda MZ</span><span>Juntos por uma Moçambique mais informada.</span></footer>
       </div>
 
@@ -130,11 +84,6 @@
           <a class="nav-item" href="#eventos" data-nav="Definições"><span class="nav-icon settings-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19 13.5a7.8 7.8 0 0 0 0-3l2-1.5-2-3.5-2.3 1a8 8 0 0 0-2.7-1.5L13.5 2h-4L9 5a8 8 0 0 0-2.7 1.5L4 5.5 2 9l2 1.5a7.8 7.8 0 0 0 0 3L2 15l2 3.5 2.3-1A8 8 0 0 0 9 19l.5 3h4l.5-3a8 8 0 0 0 2.7-1.5l2.3 1 2-3.5Z"></path></svg></span><span class="nav-copy"><strong>Definições</strong><small>Personalize a sua experiência</small></span><b>›</b></a>
           <a class="nav-item" href="#eventos" data-nav="Ajuda & Suporte"><span class="nav-icon help-icon">?</span><span class="nav-copy"><strong>Ajuda &amp; Suporte</strong><small>Tire as suas dúvidas</small></span><b>›</b></a>
         </nav>
-        <div class="panel-bottom">
-          <span class="sun-symbol" aria-hidden="true">☼</span>
-          <button class="theme-switch" id="theme-switch" type="button" aria-label="Alternar modo de cor"><span></span></button>
-          <span>Modo Escuro</span>
-        </div>
       </aside>
       <div class="drawer-scrim" id="drawer-scrim"></div>
       <section class="brand-card" aria-label="Agenda MZ">
