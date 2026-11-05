@@ -15,8 +15,12 @@ let activeOverlay = null;
 let assistantUI;
 
 const STORAGE_KEYS = {
-  assistantButton: 'agenda-mz-assistant-button',
   chatExpanded: 'agenda-mz-chat-expanded',
+};
+
+const SESSION_KEYS = {
+  authenticated: 'agenda-mz-authenticated',
+  aiEnabled: 'agenda-mz-ai-enabled',
 };
 
 function readStoredBoolean(key, fallback) {
@@ -34,6 +38,40 @@ function writeStoredBoolean(key, value) {
   } catch {
     // A preferência local indisponível não deve impedir a utilização da interface.
   }
+}
+
+function readSessionBoolean(key, fallback = false) {
+  try {
+    const value = window.sessionStorage.getItem(key);
+    return value === null ? fallback : value === 'true';
+  } catch {
+    return fallback;
+  }
+}
+
+function writeSessionBoolean(key, value) {
+  try {
+    if (value) window.sessionStorage.setItem(key, 'true');
+    else window.sessionStorage.removeItem(key);
+  } catch {
+    // Se a sessão não estiver disponível, a IA permanece desactivada por segurança.
+  }
+}
+
+function isRestrictedPage() {
+  const path = window.location.pathname.replace(/\/$/, '').toLocaleLowerCase('pt');
+  return document.body.classList.contains('public-home') ||
+    document.body.dataset.page === 'login' ||
+    document.body.dataset.page === 'signup' ||
+    ['/login', '/entrar', '/criar-conta', '/registar', '/register', '/signup'].includes(path);
+}
+
+function isAuthenticated() {
+  return readSessionBoolean(SESSION_KEYS.authenticated);
+}
+
+function isAssistantAllowed() {
+  return !isRestrictedPage() && isAuthenticated() && readSessionBoolean(SESSION_KEYS.aiEnabled);
 }
 
 function isMobileMenu() {
@@ -59,7 +97,7 @@ if (eventGrid) {
 }
 
 function applyFilters() {
-  const query = search.value.trim().toLocaleLowerCase('pt');
+  const query = search ? search.value.trim().toLocaleLowerCase('pt') : '';
   let visibleCount = 0;
   cards.forEach((card) => {
     const matchesQuery = card.dataset.search.toLocaleLowerCase('pt').includes(query);
@@ -82,6 +120,7 @@ function setPanel(open) {
 }
 
 function showToast(message) {
+  if (!toast) return;
   toast.textContent = message;
   toast.classList.add('visible');
   window.clearTimeout(toastTimer);
@@ -122,21 +161,21 @@ function createAssistantUI() {
   chat.querySelector('.chat-expand').addEventListener('click', () => toggleChatExpanded(chat));
   settings.querySelector('.toggle-switch').addEventListener('click', () => toggleAssistantButton(settings, button));
 
-  const assistantEnabled = readStoredBoolean(STORAGE_KEYS.assistantButton, true);
+  const assistantEnabled = readSessionBoolean(SESSION_KEYS.aiEnabled, false);
   const expanded = readStoredBoolean(STORAGE_KEYS.chatExpanded, false);
   applyAssistantSetting(settings, button, assistantEnabled);
   setChatExpanded(chat, expanded);
   return { button, settings, chat };
 }
 
-assistantUI = createAssistantUI();
+assistantUI = isRestrictedPage() ? null : createAssistantUI();
 updateAssistantButtonVisibility();
 
 function updateAssistantButtonVisibility() {
   if (!assistantUI) return;
-  const menuOpen = panel.classList.contains('is-open');
+  const menuOpen = panel && panel.classList.contains('is-open');
   const chatOpen = assistantUI.chat.classList.contains('is-open');
-  assistantUI.button.hidden = menuOpen || chatOpen || assistantUI.button.getAttribute('aria-hidden') === 'true';
+  assistantUI.button.hidden = menuOpen || chatOpen || !isAssistantAllowed();
 }
 
 function getFocusable(container) {
@@ -166,13 +205,17 @@ function applyAssistantSetting(settings, button, enabled) {
   toggle.setAttribute('aria-checked', String(enabled));
   toggle.setAttribute('aria-label', `${enabled ? 'Desligar' : 'Ligar'} botão flutuante do Assistente IA`);
   toggle.classList.toggle('is-on', enabled);
-  button.setAttribute('aria-hidden', String(!enabled));
+  button.setAttribute('aria-hidden', String(!isAssistantAllowed()));
   updateAssistantButtonVisibility();
 }
 
 function toggleAssistantButton(settings, button) {
+  if (!isAuthenticated()) {
+    showToast('Entra na tua conta para activar o Assistente IA.');
+    return;
+  }
   const enabled = settings.querySelector('.toggle-switch').getAttribute('aria-checked') !== 'true';
-  writeStoredBoolean(STORAGE_KEYS.assistantButton, enabled);
+  writeSessionBoolean(SESSION_KEYS.aiEnabled, enabled);
   applyAssistantSetting(settings, button, enabled);
 }
 
@@ -190,6 +233,32 @@ function toggleChatExpanded(chat) {
   setChatExpanded(chat, expanded);
 }
 
+window.AgendaMZSession = {
+  login() {
+    writeSessionBoolean(SESSION_KEYS.authenticated, true);
+    writeSessionBoolean(SESSION_KEYS.aiEnabled, false);
+    updateAssistantButtonVisibility();
+  },
+  logout() {
+    writeSessionBoolean(SESSION_KEYS.authenticated, false);
+    writeSessionBoolean(SESSION_KEYS.aiEnabled, false);
+    if (assistantUI) {
+      assistantUI.button.hidden = true;
+      closeOverlay(assistantUI.chat, false);
+      closeOverlay(assistantUI.settings, false);
+    }
+    window.dispatchEvent(new CustomEvent('agenda-mz-session-changed'));
+  },
+  setAiEnabled(enabled) {
+    if (!isAuthenticated()) return false;
+    writeSessionBoolean(SESSION_KEYS.aiEnabled, Boolean(enabled));
+    if (assistantUI) applyAssistantSetting(assistantUI.settings, assistantUI.button, Boolean(enabled));
+    return true;
+  },
+};
+
+window.addEventListener('agenda-mz-session-changed', updateAssistantButtonVisibility);
+
 if (panel && menuButton && closeButton && scrim) {
   menuButton.addEventListener('click', () => setPanel(!panel.classList.contains('is-open')));
   closeButton.addEventListener('click', () => setPanel(false));
@@ -198,14 +267,14 @@ if (panel && menuButton && closeButton && scrim) {
 
 document.addEventListener('pointerdown', (event) => {
   if (panel && panel.classList.contains('is-open') && !panel.contains(event.target) && event.target !== menuButton && !menuButton.contains(event.target)) setPanel(false);
-  if (assistantUI.chat.classList.contains('is-open') && isMobileMenu() && !assistantUI.chat.contains(event.target) && event.target !== assistantUI.button) closeOverlay(assistantUI.chat);
+  if (assistantUI && assistantUI.chat.classList.contains('is-open') && isMobileMenu() && !assistantUI.chat.contains(event.target) && event.target !== assistantUI.button) closeOverlay(assistantUI.chat);
 });
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     if (activeOverlay) closeOverlay(activeOverlay);
     else if (panel && panel.classList.contains('is-open') && isMobileMenu()) setPanel(false);
-    if (search.matches(':focus')) search.blur();
+    if (search && search.matches(':focus')) search.blur();
   }
   if (event.key === 'Tab' && activeOverlay) {
     const focusable = getFocusable(activeOverlay);
@@ -227,12 +296,14 @@ if (panel) {
   });
 }
 
-search.addEventListener('pointerdown', (event) => {
-  event.stopPropagation();
-  setPanel(false);
-});
-search.addEventListener('click', () => setPanel(false));
-search.addEventListener('input', applyFilters);
+if (search) {
+  search.addEventListener('pointerdown', (event) => {
+    event.stopPropagation();
+    setPanel(false);
+  });
+  search.addEventListener('click', () => setPanel(false));
+  search.addEventListener('input', applyFilters);
+}
 
 document.querySelectorAll('[data-auth-action]').forEach((button) => {
   button.addEventListener('click', () => showToast(`${button.dataset.authAction} — autenticação em preparação.`));
@@ -258,9 +329,11 @@ document.querySelectorAll('.nav-item').forEach((item) => {
     document.querySelectorAll('.nav-item').forEach((link) => link.classList.remove('selected'));
     item.classList.add('selected');
     const name = item.dataset.nav;
-    if (name === 'Chat IA') {
+    if (name === 'Chat IA' && assistantUI && isAssistantAllowed()) {
       openOverlay(assistantUI.chat);
-    } else if (name === 'Definições') {
+    } else if (name === 'Chat IA') {
+      showToast('Entra na tua conta e activa o Assistente IA nas definições.');
+    } else if (name === 'Definições' && assistantUI) {
       openOverlay(assistantUI.settings);
     } else {
       const target = name === 'Eventos' ? document.querySelector('#eventos') : document.querySelector('#inicio');
