@@ -82,3 +82,13 @@ Tudo no site deve adaptar-se a telemóvel normal, telemóvel em modo computador,
 - O `styles.css` tinha sido sobrescrito acidentalmente por um override de 499 bytes, deixando a home sem o design principal.
 - O CSS completo foi restaurado e o override da pesquisa pública foi reaplicado no final do ficheiro.
 - `npm run build`, headers `text/css` e testes visuais desktop/mobile foram realizados antes do commit.
+
+## Regra permanente — commits completos e actualizados
+
+Antes de qualquer novo commit, sincronizar a branch de trabalho com a versão mais recente da branch de destino, integrar as alterações anteriores aprovadas e confirmar que não existem mudanças necessárias esquecidas.
+
+Cada commit deve representar uma versão coerente e completa da Agenda MZ, incluindo todos os ficheiros necessários — HTML, JavaScript, CSS, imagens, fontes, configurações, dependências e documentação quando aplicável. Não criar commits isolados que dependam de ficheiros antigos ou de alterações que ficaram fora do commit.
+
+Antes de finalizar, verificar as funcionalidades anteriores, confirmar que o CSS corresponde à versão mais recente, executar o build e os testes necessários e verificar conflitos. Preservar o histórico Git, manter `development` como ambiente de desenvolvimento e `main` como produção, e nunca fazer merge ou publicar em produção sem autorização explícita.
+
+O relatório de cada commit deve indicar o hash, a branch, a versão de origem, as alterações integradas, os ficheiros incluídos, o resultado do build/testes e a confirmação de que o CSS e os recursos necessários estão presentes.
