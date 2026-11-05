@@ -72,6 +72,7 @@ function applyFilters() {
 }
 
 function setPanel(open) {
+  if (!panel || !menuButton || !scrim) return;
   panel.classList.toggle('is-open', open);
   scrim.classList.toggle('visible', open && isMobileMenu());
   document.body.classList.toggle('menu-open', open);
@@ -189,19 +190,21 @@ function toggleChatExpanded(chat) {
   setChatExpanded(chat, expanded);
 }
 
-menuButton.addEventListener('click', () => setPanel(!panel.classList.contains('is-open')));
-closeButton.addEventListener('click', () => setPanel(false));
-scrim.addEventListener('click', () => setPanel(false));
+if (panel && menuButton && closeButton && scrim) {
+  menuButton.addEventListener('click', () => setPanel(!panel.classList.contains('is-open')));
+  closeButton.addEventListener('click', () => setPanel(false));
+  scrim.addEventListener('click', () => setPanel(false));
+}
 
 document.addEventListener('pointerdown', (event) => {
-  if (panel.classList.contains('is-open') && !panel.contains(event.target) && event.target !== menuButton && !menuButton.contains(event.target)) setPanel(false);
+  if (panel && panel.classList.contains('is-open') && !panel.contains(event.target) && event.target !== menuButton && !menuButton.contains(event.target)) setPanel(false);
   if (assistantUI.chat.classList.contains('is-open') && isMobileMenu() && !assistantUI.chat.contains(event.target) && event.target !== assistantUI.button) closeOverlay(assistantUI.chat);
 });
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     if (activeOverlay) closeOverlay(activeOverlay);
-    else if (panel.classList.contains('is-open') && isMobileMenu()) setPanel(false);
+    else if (panel && panel.classList.contains('is-open') && isMobileMenu()) setPanel(false);
     if (search.matches(':focus')) search.blur();
   }
   if (event.key === 'Tab' && activeOverlay) {
@@ -214,13 +217,15 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-if (isMobileMenu()) setPanel(false);
-else setPanel(true);
-window.addEventListener('resize', () => {
-  if (window.matchMedia('(min-width: 901px)').matches) setPanel(panel.classList.contains('is-open'));
-  else if (panel.classList.contains('is-open')) setPanel(false);
-  else { scrim.classList.remove('visible'); document.body.classList.remove('menu-open'); }
-});
+if (panel) {
+  if (isMobileMenu()) setPanel(false);
+  else setPanel(true);
+  window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 901px)').matches) setPanel(panel.classList.contains('is-open'));
+    else if (panel.classList.contains('is-open')) setPanel(false);
+    else { scrim.classList.remove('visible'); document.body.classList.remove('menu-open'); }
+  });
+}
 
 search.addEventListener('pointerdown', (event) => {
   event.stopPropagation();
@@ -228,6 +233,10 @@ search.addEventListener('pointerdown', (event) => {
 });
 search.addEventListener('click', () => setPanel(false));
 search.addEventListener('input', applyFilters);
+
+document.querySelectorAll('[data-auth-action]').forEach((button) => {
+  button.addEventListener('click', () => showToast(`${button.dataset.authAction} — autenticação em preparação.`));
+});
 
 document.querySelectorAll('[data-category]').forEach((button) => {
   button.addEventListener('click', () => {
