@@ -3,14 +3,20 @@ const menuButton = document.querySelector('#menu-toggle');
 const closeButton = document.querySelector('#close-menu');
 const scrim = document.querySelector('#drawer-scrim');
 const search = document.querySelector('#event-search');
+const searchBox = document.querySelector('.search-box');
 const cards = [...document.querySelectorAll('.event-card')];
 const emptyMessage = document.querySelector('#search-empty');
 const toast = document.querySelector('#toast');
 let toastTimer;
 
+function isMobileMenu() {
+  return window.matchMedia('(max-width: 900px)').matches;
+}
+
 function setPanel(open) {
   panel.classList.toggle('is-open', open);
-  scrim.classList.toggle('visible', open && window.matchMedia('(max-width: 900px)').matches);
+  scrim.classList.toggle('visible', open && isMobileMenu());
+  document.body.classList.toggle('menu-open', open && isMobileMenu());
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
 }
@@ -26,12 +32,30 @@ menuButton.addEventListener('click', () => setPanel(!panel.classList.contains('i
 closeButton.addEventListener('click', () => setPanel(false));
 scrim.addEventListener('click', () => setPanel(false));
 
-if (window.matchMedia('(max-width: 900px)').matches) setPanel(false);
+document.addEventListener('pointerdown', (event) => {
+  if (isMobileMenu() && panel.classList.contains('is-open')
+    && !panel.contains(event.target) && event.target !== menuButton && !menuButton.contains(event.target)) {
+    setPanel(false);
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (panel.classList.contains('is-open') && isMobileMenu()) setPanel(false);
+    if (searchBox.matches(':focus-within')) {
+      search.blur();
+      searchBox.blur();
+    }
+  }
+});
+
+if (isMobileMenu()) setPanel(false);
 window.addEventListener('resize', () => {
   if (window.matchMedia('(min-width: 901px)').matches) {
     setPanel(true);
   } else if (!panel.classList.contains('is-open')) {
     scrim.classList.remove('visible');
+    document.body.classList.remove('menu-open');
   }
 });
 
@@ -57,7 +81,7 @@ document.querySelectorAll('.nav-item').forEach((item) => {
     } else {
       showToast(`${name} — prévia visual do Agenda MZ`);
     }
-    if (window.matchMedia('(max-width: 900px)').matches) setPanel(false);
+    setPanel(false);
   });
 });
 
@@ -74,11 +98,4 @@ document.querySelectorAll('.carousel-dots button').forEach((dot, index) => {
     dot.classList.add('active');
     document.querySelector('.carousel-dots').setAttribute('aria-label', `Slide ${index + 1} de 3`);
   });
-});
-
-document.querySelector('#theme-switch').addEventListener('click', (event) => {
-  const button = event.currentTarget;
-  const active = button.getAttribute('aria-checked') !== 'true';
-  button.setAttribute('aria-checked', String(active));
-  document.body.classList.toggle('theme-preview', active);
 });

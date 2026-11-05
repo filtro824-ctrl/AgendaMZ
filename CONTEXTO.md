@@ -17,3 +17,11 @@ Regras permanentes para o repositório `filtro824-ctrl/AgendaMZ`.
 - O output do build é a pasta `dist/`.
 - A configuração do Cloudflare Wrangler está em `wrangler.jsonc`.
 - A branch de trabalho é `development`; a publicação ocorre a partir da `main` após pull request aprovado.
+
+## Última tarefa
+
+- Corrigido o cabeçalho responsivo: em ecrãs estreitos a pesquisa abre abaixo do cabeçalho em largura útil total, mantendo a filtragem dos eventos e um espaço mínimo de 12 px para o botão do menu.
+- Corrigido o menu móvel: fecho por toque fora do painel, tecla `Esc`, botão X e selecção de opção; o scroll do fundo fica bloqueado enquanto o menu está aberto.
+- Removido apenas o interruptor e o suporte do Modo Escuro.
+- `npm run build` e os testes de browser no artefacto `dist/` passaram em 320, 360, 390, 412, 768, 1024 e 1280 px.
+- Pull request para `main` será aberto e aguarda aprovação; não fazer merge sem autorização explícita.
