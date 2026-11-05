@@ -92,3 +92,11 @@ Cada commit deve representar uma versão coerente e completa da Agenda MZ, inclu
 Antes de finalizar, verificar as funcionalidades anteriores, confirmar que o CSS corresponde à versão mais recente, executar o build e os testes necessários e verificar conflitos. Preservar o histórico Git, manter `development` como ambiente de desenvolvimento e `main` como produção, e nunca fazer merge ou publicar em produção sem autorização explícita.
 
 O relatório de cada commit deve indicar o hash, a branch, a versão de origem, as alterações integradas, os ficheiros incluídos, o resultado do build/testes e a confirmação de que o CSS e os recursos necessários estão presentes.
+
+
+## Correcção da página inicial — galeria demonstrativa
+
+- A secção de eventos da home passou a apresentar quatro imagens ilustrativas em cartões demonstrativos: Festival X, Conferência Y, Mostra Cultural Z e Encontro Desportivo W.
+- Cada cartão abre apenas um modal local com informação explicitamente demonstrativa e botão para fechar; não há links, mudança de rota, favoritos, pesquisa ou publicação associados ao clique.
+- A página `/eventos`, os seus filtros e a pesquisa existente foram preservados.
+- Foram validados os quatro modais, o fecho e permanência na mesma página, a pesquisa de “Festival” em `/eventos`, o build e a apresentação em 1440x1000 e 390x844.

@@ -11,3 +11,5 @@
 - [x] **Acessibilidade e responsividade:** etiquetas ARIA, estado de foco, `role="switch"`, foco contido nos painéis e estilos validados para larguras de 320 a 1280 px.
 
 - [x] **Etapa 1 — página inicial pública:** removido o menu principal e o botão de terminar sessão da home; preservada a pesquisa e a grelha de eventos; adicionado cabeçalho minimalista com marca, Entrar e Criar conta, hero com imagem de festival, texto aprovado, CTAs e animações suaves responsivas.
+
+- [x] **Galeria demonstrativa na página inicial:** substituídos os cartões da home por quatro imagens/cartazes ilustrativos com o título “Conhece alguns eventos na Agenda MZ”, identificação explícita de exemplos demonstrativos, modal local com nome, localização, categoria e data demonstrativa, apenas botão de fechar e sem navegação para eventos reais; `/eventos`, pesquisa, filtros, autenticação, IA, hero, cabeçalho e rodapé preservados. Build e testes desktop/mobile concluídos.

@@ -109,6 +109,44 @@ function applyFilters() {
   if (emptyMessage) emptyMessage.hidden = visibleCount !== 0;
 }
 
+const demoModal = document.querySelector('#demo-modal');
+const demoModalClose = document.querySelector('#demo-modal-close');
+const demoModalAction = document.querySelector('#demo-modal-action');
+const demoModalTitle = document.querySelector('#demo-modal-title');
+const demoModalLocation = document.querySelector('#demo-modal-location');
+const demoModalCategory = document.querySelector('#demo-modal-category');
+const demoModalDate = document.querySelector('#demo-modal-date');
+let demoTrigger;
+
+function closeDemoModal(restoreFocus = true) {
+  if (!demoModal) return;
+  demoModal.classList.remove('is-open');
+  demoModal.setAttribute('aria-hidden', 'true');
+  if (restoreFocus && demoTrigger) demoTrigger.focus();
+}
+
+function openDemoModal(card) {
+  if (!demoModal) return;
+  demoTrigger = card;
+  demoModalTitle.textContent = card.dataset.demoTitle;
+  demoModalLocation.textContent = card.dataset.demoLocation;
+  demoModalCategory.textContent = card.dataset.demoCategory;
+  demoModalDate.textContent = card.dataset.demoDate;
+  demoModal.classList.add('is-open');
+  demoModal.setAttribute('aria-hidden', 'false');
+  demoModalClose.focus();
+}
+
+document.querySelectorAll('.demo-card').forEach((card) => {
+  card.addEventListener('click', () => openDemoModal(card));
+});
+
+demoModalClose?.addEventListener('click', () => closeDemoModal());
+demoModalAction?.addEventListener('click', () => closeDemoModal());
+demoModal?.addEventListener('click', (event) => {
+  if (event.target === demoModal) closeDemoModal();
+});
+
 function setPanel(open) {
   if (!panel || !menuButton || !scrim) return;
   panel.classList.toggle('is-open', open);
@@ -272,6 +310,7 @@ document.addEventListener('pointerdown', (event) => {
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
+    if (demoModal?.classList.contains('is-open')) closeDemoModal();
     if (activeOverlay) closeOverlay(activeOverlay);
     else if (panel && panel.classList.contains('is-open') && isMobileMenu()) setPanel(false);
     if (search && search.matches(':focus')) search.blur();

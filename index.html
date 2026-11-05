@@ -49,15 +49,40 @@
       </section>
 
       <div class="main-column">
-        <section class="featured-section" id="eventos" aria-labelledby="featured-title">
+        <section class="featured-section demo-events-section" id="eventos" aria-labelledby="featured-title">
           <div class="section-heading">
-            <div><p class="section-kicker">Não percas o que vem aí</p><h2 id="featured-title">Eventos em Destaque</h2></div>
-            <a class="view-all" href="/eventos">Ver todos <span aria-hidden="true">→</span></a>
+            <div><p class="section-kicker">Inspiração para a tua agenda</p><h2 id="featured-title">Conhece alguns eventos na Agenda MZ</h2></div>
+            <span class="demo-label">Exemplos demonstrativos</span>
           </div>
-          <div class="event-grid" id="event-grid"></div>
-          <p id="search-empty" class="search-empty" hidden>Nenhum evento encontrado. Tenta outra pesquisa.</p>
+          <div class="demo-gallery" id="demo-gallery" aria-label="Galeria de eventos demonstrativos">
+            <button class="demo-card" type="button" data-demo-title="Festival X" data-demo-location="Cidade X" data-demo-category="Festival" data-demo-date="Data demonstrativa" aria-label="Ver exemplo demonstrativo Festival X">
+              <span class="demo-card-image"><img src="/images/event-music.jpg" alt="Cartaz ilustrativo de um festival de música" loading="lazy" /></span>
+              <span class="demo-card-body"><strong>Festival X</strong><small>Festival · Cidade X</small><em>Exemplo demonstrativo</em></span>
+            </button>
+            <button class="demo-card" type="button" data-demo-title="Conferência Y" data-demo-location="Cidade Y" data-demo-category="Conferência" data-demo-date="Data demonstrativa" aria-label="Ver exemplo demonstrativo Conferência Y">
+              <span class="demo-card-image"><img src="/images/event-conference.jpg" alt="Cartaz ilustrativo de uma conferência" loading="lazy" /></span>
+              <span class="demo-card-body"><strong>Conferência Y</strong><small>Conferência · Cidade Y</small><em>Exemplo demonstrativo</em></span>
+            </button>
+            <button class="demo-card" type="button" data-demo-title="Mostra Cultural Z" data-demo-location="Cidade Z" data-demo-category="Cultura" data-demo-date="Data demonstrativa" aria-label="Ver exemplo demonstrativo Mostra Cultural Z">
+              <span class="demo-card-image"><img src="/images/event-culture.jpg" alt="Cartaz ilustrativo de uma mostra cultural" loading="lazy" /></span>
+              <span class="demo-card-body"><strong>Mostra Cultural Z</strong><small>Cultura · Cidade Z</small><em>Exemplo demonstrativo</em></span>
+            </button>
+            <button class="demo-card" type="button" data-demo-title="Encontro Desportivo W" data-demo-location="Cidade W" data-demo-category="Desporto" data-demo-date="Data demonstrativa" aria-label="Ver exemplo demonstrativo Encontro Desportivo W">
+              <span class="demo-card-image"><img src="/images/event-football.jpg" alt="Cartaz ilustrativo de um evento desportivo" loading="lazy" /></span>
+              <span class="demo-card-body"><strong>Encontro Desportivo W</strong><small>Desporto · Cidade W</small><em>Exemplo demonstrativo</em></span>
+            </button>
+          </div>
         </section>
         <footer class="site-footer"><span>Agenda MZ</span><span>Juntos por uma Moçambique mais informada.</span></footer>
+      </div>
+      <div class="demo-modal" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title" aria-hidden="true">
+        <div class="demo-modal-card">
+          <div class="demo-modal-heading"><span class="demo-modal-kicker">Informação de demonstração</span><button id="demo-modal-close" type="button" aria-label="Fechar informação demonstrativa">×</button></div>
+          <h2 id="demo-modal-title">Festival X</h2>
+          <p class="demo-modal-note">Este conteúdo é apenas um exemplo visual e não representa um evento confirmado.</p>
+          <dl class="demo-details"><div><dt>Localização</dt><dd id="demo-modal-location">Cidade X</dd></div><div><dt>Categoria</dt><dd id="demo-modal-category">Festival</dd></div><div><dt>Data</dt><dd id="demo-modal-date">Data demonstrativa</dd></div></dl>
+          <button class="demo-modal-action" id="demo-modal-action" type="button">Fechar</button>
+        </div>
       </div>
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </main>
