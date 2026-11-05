@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-MZ">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1731" />
+    <meta name="description" content="Explora todos os eventos do Agenda MZ em Moçambique." />
+    <title>Eventos — Agenda MZ</title>
+    <link rel="icon" href="/brandmark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/events.js" defer></script>
+    <script src="/main.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell events-page">
+      <section class="events-hero" aria-labelledby="events-title">
+        <div class="hero-shade"></div>
+        <div class="hero-inner">
+          <header class="site-header">
+            <a class="brand" href="/" aria-label="Agenda MZ — página inicial">
+              <span class="brand-emblem" aria-hidden="true">
+                <img src="/brandmark.svg" alt="" />
+              </span>
+              <span class="brand-copy">
+                <span class="brand-name">Agenda <strong>MZ</strong></span>
+                <span class="brand-tagline">O que acontece em Moçambique, num só lugar.</span>
+              </span>
+            </a>
+            <div class="header-actions">
+              <label class="search-box" aria-label="Pesquisar eventos">
+                <input id="event-search" type="search" placeholder="Pesquisar eventos..." autocomplete="off" />
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"></circle><path d="m16 16 4.2 4.2"></path></svg>
+              </label>
+              <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="true" aria-controls="side-panel">
+                <span></span><span></span><span></span>
+              </button>
+            </div>
+          </header>
+          <div class="events-hero-copy">
+            <p class="eyebrow"><span class="live-dot"></span> Agenda MZ</p>
+            <h1 id="events-title">Todos os Eventos</h1>
+            <p>Encontra o que acontece em Moçambique.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="events-content">
+        <a class="back-link" href="/">← Voltar à página inicial</a>
+        <section class="all-events-section" id="eventos" aria-labelledby="all-events-title">
+          <div class="section-heading events-heading">
+            <div>
+              <p class="section-kicker">Explora a agenda</p>
+              <h2 id="all-events-title">Eventos</h2>
+            </div>
+          </div>
+          <div class="category-list" aria-label="Categorias de eventos">
+            <button class="category-filter selected" type="button" data-category="Todos" aria-pressed="true">Todos</button>
+            <button class="category-filter" type="button" data-category="Música" aria-pressed="false">Música</button>
+            <button class="category-filter" type="button" data-category="Conferência" aria-pressed="false">Conferência</button>
+            <button class="category-filter" type="button" data-category="Cultura" aria-pressed="false">Cultura</button>
+            <button class="category-filter" type="button" data-category="Desporto" aria-pressed="false">Desporto</button>
+          </div>
+          <div class="event-grid" id="all-event-grid"></div>
+          <p id="search-empty" class="search-empty" hidden>Nenhum evento encontrado</p>
+        </section>
+      </div>
+
+      <aside class="side-panel is-open" id="side-panel" aria-label="Menu principal">
+        <div class="panel-heading">
+          <img src="/brandmark.svg" alt="" />
+          <div><strong>Agenda <em>MZ</em></strong><span>Menu Principal</span></div>
+          <button id="close-menu" type="button" aria-label="Fechar menu">×</button>
+        </div>
+        <nav class="side-nav">
+          <a class="nav-item" href="/" data-nav="Início"><span class="nav-icon home-icon">⌂</span><span class="nav-copy"><strong>Início</strong><small>Volte à página principal</small></span><b>›</b></a>
+          <a class="nav-item selected" href="#eventos" data-nav="Eventos"><span class="nav-icon event-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01"></path></svg></span><span class="nav-copy"><strong>Eventos</strong><small>Descubra e explore eventos</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Mapa"><span class="nav-icon location-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2"></circle></svg></span><span class="nav-copy"><strong>Mapa</strong><small>Encontre eventos perto de si</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Notificações"><span class="nav-icon notice-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg></span><span class="nav-copy"><strong>Notificações</strong><small>Seja avisado automaticamente</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Chat IA"><span class="nav-icon chat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="3"></rect><path d="M12 3v3M8 12h.01M16 12h.01M9 16h6M2 11h2M20 11h2"></path></svg></span><span class="nav-copy"><strong>Chat IA</strong><small>Converse com o nosso assistente</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Publicar Evento"><span class="nav-icon publish-icon">+</span><span class="nav-copy"><strong>Publicar Evento</strong><small>Divulgue o seu evento</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Meu Perfil"><span class="nav-icon profile-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span><span class="nav-copy"><strong>Meu Perfil</strong><small>As suas preferências</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Definições"><span class="nav-icon settings-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19 13.5a7.8 7.8 0 0 0 0-3l2-1.5-2-3.5-2.3 1a8 8 0 0 0-2.7-1.5L13.5 2h-4L9 5a8 8 0 0 0-2.7 1.5L4 5.5 2 9l2 1.5a7.8 7.8 0 0 0 0 3L2 15l2 3.5 2.3-1A8 8 0 0 0 9 19l.5 3h4l.5-3a8 8 0 0 0 2.7-1.5l2.3 1 2.3 1 2-3.5Z"></path></svg></span><span class="nav-copy"><strong>Definições</strong><small>Personalize a sua experiência</small></span><b>›</b></a>
+          <a class="nav-item" href="#eventos" data-nav="Ajuda &amp; Suporte"><span class="nav-icon help-icon">?</span><span class="nav-copy"><strong>Ajuda &amp; Suporte</strong><small>Tire as suas dúvidas</small></span><b>›</b></a>
+        </nav>
+      </aside>
+      <div class="drawer-scrim" id="drawer-scrim"></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+  </body>
+</html>

@@ -25,3 +25,13 @@ Regras permanentes para o repositório `filtro824-ctrl/AgendaMZ`.
 - Removido apenas o interruptor e o suporte do Modo Escuro.
 - `npm run build` e os testes de browser no artefacto `dist/` passaram em 320, 360, 390, 412, 768, 1024 e 1280 px.
 - Pull request para `main` será aberto e aguarda aprovação; não fazer merge sem autorização explícita.
+
+## Tarefa actual
+
+- Criada a página `/eventos` com botão Voltar, cabeçalho, pesquisa, categorias seleccionáveis e cartões responsivos.
+- Os quatro eventos passaram a vir de `events.js`, partilhado pela página inicial e por `/eventos`.
+- `build.mjs` copia a nova página, o ficheiro de dados e cria `dist/eventos/index.html` para a rota estática.
+- `server.mjs` serve `/eventos` localmente; `public/manus-routes.json` declara a nova rota.
+- `npm run build`, a aplicação fonte e o artefacto `dist/` passaram os testes em 320, 390, 768, 1024 e 1280 px.
+- Pesquisa e categoria combinadas, estado sem resultados, botão Ver todos e menu lateral foram testados.
+- O pull request desta tarefa será aberto para `main` e aguarda aprovação; não fazer merge sem autorização explícita.

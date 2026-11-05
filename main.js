@@ -3,14 +3,47 @@ const menuButton = document.querySelector('#menu-toggle');
 const closeButton = document.querySelector('#close-menu');
 const scrim = document.querySelector('#drawer-scrim');
 const search = document.querySelector('#event-search');
-const searchBox = document.querySelector('.search-box');
-const cards = [...document.querySelectorAll('.event-card')];
+const eventGrid = document.querySelector('#event-grid, #all-event-grid');
 const emptyMessage = document.querySelector('#search-empty');
 const toast = document.querySelector('#toast');
+const events = window.AGENDA_EVENTS || [];
+let cards = [];
+let activeCategory = 'Todos';
 let toastTimer;
 
 function isMobileMenu() {
   return window.matchMedia('(max-width: 900px)').matches;
+}
+
+function eventCardMarkup(event) {
+  return `<article class="event-card" data-category="${event.category}" data-search="${event.search}">
+    <button class="event-image ${event.imageClass}-image" type="button" aria-label="Ver ${event.titleLines.join(' ')}">
+      <img src="${event.image}" alt="${event.alt}" loading="lazy" />
+      <span class="category ${event.categoryClass}">${event.category}</span>
+    </button>
+    <div class="event-info">
+      <div class="event-meta"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"></rect><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"></path></svg>${event.date}</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.2"></circle></svg>${event.location}</span></div>
+      <div class="event-bottom"><h3>${event.titleLines.map((line) => `<span>${line}</span>`).join('')}</h3><button class="card-arrow" type="button" aria-label="Ver detalhes de ${event.titleLines.join(' ')}">→</button></div>
+    </div>
+  </article>`;
+}
+
+if (eventGrid) {
+  eventGrid.innerHTML = events.map(eventCardMarkup).join('');
+  cards = [...eventGrid.querySelectorAll('.event-card')];
+}
+
+function applyFilters() {
+  const query = search.value.trim().toLocaleLowerCase('pt');
+  let visibleCount = 0;
+  cards.forEach((card) => {
+    const matchesQuery = card.dataset.search.toLocaleLowerCase('pt').includes(query);
+    const matchesCategory = activeCategory === 'Todos' || card.dataset.category === activeCategory;
+    const visible = matchesQuery && matchesCategory;
+    card.hidden = !visible;
+    if (visible) visibleCount += 1;
+  });
+  if (emptyMessage) emptyMessage.hidden = visibleCount !== 0;
 }
 
 function setPanel(open) {
@@ -42,10 +75,7 @@ document.addEventListener('pointerdown', (event) => {
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     if (panel.classList.contains('is-open') && isMobileMenu()) setPanel(false);
-    if (searchBox.matches(':focus-within')) {
-      search.blur();
-      searchBox.blur();
-    }
+    if (search.matches(':focus')) search.blur();
   }
 });
 
@@ -59,16 +89,21 @@ window.addEventListener('resize', () => {
   }
 });
 
-search.addEventListener('input', () => {
-  const query = search.value.trim().toLocaleLowerCase('pt');
-  let visibleCount = 0;
-  cards.forEach((card) => {
-    const matches = card.dataset.search.toLocaleLowerCase('pt').includes(query);
-    card.hidden = !matches;
-    if (matches) visibleCount += 1;
+search.addEventListener('input', applyFilters);
+
+document.querySelectorAll('[data-category]').forEach((button) => {
+  button.addEventListener('click', () => {
+    activeCategory = button.dataset.category;
+    document.querySelectorAll('[data-category]').forEach((item) => {
+      const selected = item === button;
+      item.classList.toggle('selected', selected);
+      item.setAttribute('aria-pressed', String(selected));
+    });
+    applyFilters();
   });
-  emptyMessage.hidden = visibleCount !== 0;
 });
+
+applyFilters();
 
 document.querySelectorAll('.nav-item').forEach((item) => {
   item.addEventListener('click', (event) => {
@@ -76,8 +111,13 @@ document.querySelectorAll('.nav-item').forEach((item) => {
     document.querySelectorAll('.nav-item').forEach((link) => link.classList.remove('selected'));
     item.classList.add('selected');
     const name = item.dataset.nav;
-    if (name === 'Eventos' || name === 'Início') {
-      document.querySelector(name === 'Eventos' ? '#eventos' : '#inicio').scrollIntoView({ behavior: 'smooth' });
+    const target = name === 'Eventos' ? document.querySelector('#eventos') : document.querySelector('#inicio');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    } else if (name === 'Eventos') {
+      window.location.href = '/eventos';
+    } else if (name === 'Início') {
+      window.location.href = '/';
     } else {
       showToast(`${name} — prévia visual do Agenda MZ`);
     }
