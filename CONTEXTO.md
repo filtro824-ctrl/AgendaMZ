@@ -43,3 +43,13 @@ Regras permanentes para o repositório `filtro824-ctrl/AgendaMZ`.
 - O rodapé `Agenda MZ` / `Juntos por uma Moçambique mais informada.` foi preservado.
 - `npm run build`, a aplicação fonte e o artefacto `dist/` passaram os testes em 320, 390, 768, 1024 e 1280 px.
 - O pull request existente para `main` será actualizado e aguarda aprovação; não fazer merge sem autorização explícita.
+
+
+## Tarefa actual — Assistente IA (interface)
+
+- Implementados o painel de Definições, o botão flutuante do Assistente IA e o painel de chat, sem IA real nem respostas simuladas.
+- A preferência do botão flutuante e o modo expandido do chat usam `localStorage` dentro de `try/catch`, com valores por omissão seguros.
+- O botão flutuante respeita a área segura inferior do iPhone, desaparece quando o menu/chat estão abertos e está disponível nas páginas inicial e `/eventos`.
+- O chat tem modo lateral pequeno no computador/tablet, modo inferior de cerca de 70% no telemóvel, modo expandido, fecho por botão/Esc/toque fora no telemóvel, foco inicial e foco contido.
+- A interface foi mantida em HTML/CSS/JavaScript vanilla e não activa nenhum serviço de IA.
+- A validação final deve abranger build e larguras entre 320 e 1280 px; o pull request segue para `main` sem merge.
