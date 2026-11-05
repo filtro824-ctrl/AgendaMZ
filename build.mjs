@@ -19,7 +19,6 @@ cpSync(join(root, 'eventos.html'), join(dist, 'eventos', 'index.html'));
 if (existsSync(publicDir)) {
   cpSync(publicDir, dist, {
     recursive: true,
-    filter: (src) => !src.endsWith('manus-routes.json'),
   });
 }
 

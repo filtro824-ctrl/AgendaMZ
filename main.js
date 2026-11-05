@@ -74,7 +74,7 @@ function applyFilters() {
 function setPanel(open) {
   panel.classList.toggle('is-open', open);
   scrim.classList.toggle('visible', open && isMobileMenu());
-  document.body.classList.toggle('menu-open', open && isMobileMenu());
+  document.body.classList.toggle('menu-open', open);
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
   updateAssistantButtonVisibility();
@@ -194,7 +194,7 @@ closeButton.addEventListener('click', () => setPanel(false));
 scrim.addEventListener('click', () => setPanel(false));
 
 document.addEventListener('pointerdown', (event) => {
-  if (isMobileMenu() && panel.classList.contains('is-open') && !panel.contains(event.target) && event.target !== menuButton && !menuButton.contains(event.target)) setPanel(false);
+  if (panel.classList.contains('is-open') && !panel.contains(event.target) && event.target !== menuButton && !menuButton.contains(event.target)) setPanel(false);
   if (assistantUI.chat.classList.contains('is-open') && isMobileMenu() && !assistantUI.chat.contains(event.target) && event.target !== assistantUI.button) closeOverlay(assistantUI.chat);
 });
 
@@ -215,11 +215,18 @@ document.addEventListener('keydown', (event) => {
 });
 
 if (isMobileMenu()) setPanel(false);
+else setPanel(true);
 window.addEventListener('resize', () => {
-  if (window.matchMedia('(min-width: 901px)').matches) setPanel(true);
-  else if (!panel.classList.contains('is-open')) { scrim.classList.remove('visible'); document.body.classList.remove('menu-open'); }
+  if (window.matchMedia('(min-width: 901px)').matches) setPanel(panel.classList.contains('is-open'));
+  else if (panel.classList.contains('is-open')) setPanel(false);
+  else { scrim.classList.remove('visible'); document.body.classList.remove('menu-open'); }
 });
 
+search.addEventListener('pointerdown', (event) => {
+  event.stopPropagation();
+  setPanel(false);
+});
+search.addEventListener('click', () => setPanel(false));
 search.addEventListener('input', applyFilters);
 
 document.querySelectorAll('[data-category]').forEach((button) => {

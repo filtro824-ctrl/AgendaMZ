@@ -53,3 +53,16 @@ Regras permanentes para o repositório `filtro824-ctrl/AgendaMZ`.
 - O chat tem modo lateral pequeno no computador/tablet, modo inferior de cerca de 70% no telemóvel, modo expandido, fecho por botão/Esc/toque fora no telemóvel, foco inicial e foco contido.
 - A interface foi mantida em HTML/CSS/JavaScript vanilla e não activa nenhum serviço de IA.
 - A validação final deve abranger build e larguras entre 320 e 1280 px; o pull request segue para `main` sem merge.
+
+
+## Regra permanente de responsividade
+
+Tudo no site deve adaptar-se a telemóvel normal, telemóvel em modo computador, tablet vertical e horizontal, notebook e computador grande. Cada tarefa responsiva deve ser verificada nas larguras 320, 360, 390, 412, 600, 768, 820, 1024, 1280, 1440 e 1920 px, além de 844x390 e 980 px, sem rolagem horizontal, sobreposições ou texto cortado.
+
+## Correcção de cabeçalho, pesquisa e menu
+
+- O botão do menu passou a permanecer `fixed` no canto superior direito, com 16 px em ecrãs pequenos e 24 px nos restantes, independente do contentor do cabeçalho.
+- A pesquisa abaixo de 1024 px mostra apenas a lupa e abre abaixo do cabeçalho em largura útil; a partir de 1024 px mantém largura visível e distância fixa do botão do menu.
+- Pesquisa e menu passaram a ter eventos independentes; tocar na pesquisa fecha o menu e não o abre por propagação.
+- O fecho fora do menu deixou de estar limitado ao modo móvel; o menu fecha também por toque/clique fora, Esc, X e selecção de opção. O fundo fica bloqueado enquanto está aberto.
+- A causa encontrada era o `.menu-toggle` passar de `fixed` para `absolute` dentro de um `.site-header` estreito abaixo de 1200 px, enquanto o fecho exterior e o bloqueio de scroll estavam condicionados apenas a `isMobileMenu()`.
